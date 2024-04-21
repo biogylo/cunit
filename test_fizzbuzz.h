@@ -7,11 +7,12 @@
 #include <string.h>
 #include <stdio.h>
 
-static c_str the_buffer;
+static char* the_buffer;
+
 
 TEST(fizzbuzz,
     // Setup
-    the_buffer = (c_str) TRY_CALLOC(16, sizeof(char));,
+    the_buffer = (char*) TRY_CALLOC(16, sizeof(char));,
 
     // Test
     fizzbuzz(the_buffer, 1);

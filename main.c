@@ -1,11 +1,15 @@
 #include <cunit.h>
 #include <test_fizzbuzz.h>
 
-void main() {
+int main() {
     SUITE(
-        test_fizzbuzz, 
-        test_fizzbuzz, 
+        test_failing,
         test_fizzbuzz,
+        test_failing,
+        test_fizzbuzz,
+        test_failing,
+        test_fizzbuzz,
+        test_failing,
         test_fizzbuzz
     );
 }

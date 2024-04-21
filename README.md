@@ -48,6 +48,15 @@ TEST(
     free(buffer);
 );
 
+TEST(
+    failing_test,
+    /*setup*/,
+    /*test*/
+    int the_value = 5;
+    ASSERT(the_value == 8);,
+    /*teardown*/
+);
+
 ```
 
 I am still thinking of a good mechanism for running the tests, but for now, the main way, is to create a main file, include the header for the previously mentioned test, and, use the SUITE macro, while prepending `test_` to the test name
@@ -82,6 +91,7 @@ The current output for the above example would be:
 [3] - failing_test
                 SUCCESS - in setup
                 FAILURE - in test
+                    Assertion failed: (the_value == 8) in file <working dir>/test_fizzbuzz.h:50
                 SUCCESS - in teardown
 Ran 3 tests!
 3 PASSED, 0 FAILED, 0 ERRORED

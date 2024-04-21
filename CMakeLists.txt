@@ -4,15 +4,14 @@ project(
   cunit
   C
 )
+add_compile_options(-std=c23)
 
 add_executable(main main.c cunit.c)
 include_directories(.)
-# set_property(TARGET CUnit PROPERTY C_STANDARD 23)
 
 # Add libraries
 
 add_library(cunit cunit.c cunit.h)
-
 # Link libraries
 
-    # target_link_libraries(MyExample PRIVATE MyLibExample)
+  target_link_libraries(cunit)

@@ -1,6 +1,10 @@
 #include <cunit.h>
 
-c_str code_to_str(code_t code) {
+char static_buffer[1024];
+const char* ALLOC_ERROR = "Unable to allocate memory";
+test_t __noop_test = {"noop test noop test", NULL,NULL,NULL};
+
+char* code_to_str(code_t code) {
     switch (code)
     {
     case SUCCESS:
@@ -20,7 +24,7 @@ result_t __run(test_t test){
 
         if (setup_result.the_code != SUCCESS) {
             if (setup_result.explanation) {
-                printf("\n\t\t\t-> %s", setup_result.explanation);
+                printf("\n\t\t    %s", setup_result.explanation);
             }
             printf("\n");
             return setup_result;
@@ -33,7 +37,7 @@ result_t __run(test_t test){
 
     if (test_result.the_code != SUCCESS) {
         if (test_result.explanation) {
-            printf("\n\t\t\t-> %s", test_result.explanation);
+            printf("\n\t\t    %s", test_result.explanation);
         }
     }
     printf("\n");
@@ -46,7 +50,7 @@ result_t __run(test_t test){
 
         if (teardown_result.the_code != SUCCESS) {
             if (teardown_result.explanation) {
-                printf("\n\t\t\t-> %s", teardown_result.explanation);
+                printf("\n\t\t    %s", teardown_result.explanation);
             }
         }
         printf("\n");
@@ -55,17 +59,21 @@ result_t __run(test_t test){
 }
 
 
-void __suite(test_t test, ...) {
-    printf("--- START TEST SUITE ---\n");
+void __suite(...) {
     va_list tests;
-    va_start (tests, test);
+    printf("--- START TEST SUITE ---\n");
     // While the noop test is not found
     uint32_t total = 0;
     uint32_t passed = 0;
     uint32_t failed = 0;
     uint32_t errored = 0;
+    va_start(tests);
 
-    while (va_arg (tests, test_t).name != __noop_test.name) {
+    while (true){
+        test_t test = va_arg (tests, test_t);
+        if (test.name == __noop_test.name) {
+            break;
+        }
         total++;
         printf("[%u] - %s\n",total, test.name);
         result_t result = __run(test);
@@ -74,8 +82,8 @@ void __suite(test_t test, ...) {
             case FAILURE:failed++;break;
             case ERROR:errored++;break;
         };
-    }
-
+    };
+    va_end(tests);
     printf("Ran %u tests!\n", total);
     printf("%u PASSED, %u FAILED, %u ERRORED\n", passed, failed, errored);
     if (failed == 0 && errored == 0) {
