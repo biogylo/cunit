@@ -68,7 +68,7 @@ void __suite(test_t test, ...) {
     while (va_arg (tests, test_t).name != __noop_test.name) {
         total++;
         printf("[%u] - %s\n",total, test.name);
-        result_t result = run(test);
+        result_t result = __run(test);
         switch (result.the_code){
             case SUCCESS:passed++;break;
             case FAILURE:failed++;break;
@@ -84,3 +84,4 @@ void __suite(test_t test, ...) {
         printf("--- FAILED TEST SUITE ---\n");
     }
 }
+

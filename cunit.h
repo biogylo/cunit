@@ -18,7 +18,7 @@ const c_str ALLOC_ERROR = "Unable to allocate memory";
         the_pointer;})
 
 #define ASSERT(boolean_expression) ({if (boolean_expression != true) { uint32_t line = __LINE__; \
-        sprintf(static_buffer, "Assertion failed: (%s) in file %s:%d", #boolean_expression, __FILE__, line,); \
+        sprintf(static_buffer, "Assertion failed: (%s) in file %s:%d", #boolean_expression, __FILE__, line); \
         result_t result = {FAILURE, static_buffer}; \
         return result;\
     }; })
@@ -32,26 +32,26 @@ const c_str ALLOC_ERROR = "Unable to allocate memory";
 
 
 #define TEST(test_name, setup_block, test_block, teardown_block) \
-    static result_t _setup() { \
+    static result_t test_name ## _setup() { \
         setup_block \
         result_t __final_result = {SUCCESS, NULL};\
         return __final_result;\
     }; \
-    static result_t _test() { \
+    static result_t test_name ## _test() { \
         test_block \
         result_t __final_result = {SUCCESS, NULL};\
         return __final_result;\
     }; \
-    static result_t _teardown() { \
+    static result_t test_name ## _teardown() { \
         teardown_block \
         result_t __final_result = {SUCCESS, NULL};\
         return __final_result;\
     }; \
     test_t test_ ## test_name = {\
         .name = # test_name, \
-        .setup_fn = _setup, \
-        .test_fn = _test, \
-        .teardown_fn = _teardown}
+        .setup_fn = test_name ## _setup , \
+        .test_fn = test_name ## _test , \
+        .teardown_fn = test_name ## _teardown}
 
 typedef enum {
     SUCCESS = 0,
@@ -76,6 +76,8 @@ c_str code_to_str(code_t code);
 
 test_t __noop_test = {"noop test noop test", NULL,NULL,NULL};
 result_t __run(test_t test);
+
+
 void __suite(test_t test, ...);
 
 

@@ -1,5 +1,7 @@
 
-#include "cunit.h"
+#pragma once
+
+#include <cunit.h>
 #include <stdlib.h>
 #include "fizzbuzz.h"
 #include <string.h>
@@ -35,4 +37,16 @@ TEST(fizzbuzz,
     
     // Teardown
     free(the_buffer);
+);
+
+
+
+TEST(failing,
+    /*setup*/,
+
+    // Test
+    int the_value = 9;
+    ASSERT(the_value == 8);,
+    
+    // Teardown
 );
