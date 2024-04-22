@@ -95,7 +95,7 @@ The current output for the above example would be:
                 SUCCESS - in teardown
 Ran 3 tests!
 3 PASSED, 0 FAILED, 0 ERRORED
---- PASSED TEST SUITE ---
+--- FAILED TEST SUITE ---
 ```
 
 
